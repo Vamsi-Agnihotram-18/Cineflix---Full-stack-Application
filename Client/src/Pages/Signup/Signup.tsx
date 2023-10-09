@@ -1,158 +1,51 @@
-import { Form, Input, Button, Modal, message } from "antd";
-import { useForm } from "antd/es/form/Form";
-import axios from "axios";
-import React, { useState } from "react";
-import { ISignUp } from "../../Interfaces/signUp.interface";
-import { useDispatch } from "react-redux";
-import {
-  setLogIn,
-  setUserInfo,
-} from "../../state/reducers/authReducer/authReducer";
-import { useNavigate } from "react-router-dom";
-import { BASE_URL } from "../../env";
+import React, { useState } from 'react';
 
-const Signup = () => {
-  const [form] = useForm();
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isPremiumMember, setIsPremiumMember] = useState<boolean>(false);
-  const showModal = () => {
-    setIsModalOpen(true);
+const InputField = ({ label, type, value, onChange }) => (
+  <label>
+    {label}:
+    <input type={type} value={value} onChange={onChange} />
+  </label>
+);
+
+const SignUp: React.FC = () => {
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [errors, setErrors] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
+
+  const validateForm = () => {
+    const newErrors = {};
+    if (!username) newErrors.username = 'Username is required';
+    if (!email.includes('@')) newErrors.email = 'Enter a valid email';
+    if (password.length < 6) newErrors.password = 'Password must be at least 6 characters';
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
 
-  const handleOk = () => {
-    setIsPremiumMember(true);
-    message.success("Payment successful");
-    setIsModalOpen(false);
+  const handleSignUp = (event) => {
+    event.preventDefault();
+    if (!validateForm()) return;
+    setIsLoading(true);
+    console.log('Sign up with:', { username, email, password });
+    // Add your sign-up logic here
+    setIsLoading(false);
   };
 
-  const handleCancel = () => {
-    setIsModalOpen(false);
-  };
-
-  const signUp = (data: ISignUp) => {
-    axios
-      .post(BASE_URL+"account/sign_up", {
-        ...data,
-        role: "member",
-        membership_type: isPremiumMember ? "premium" : "regular",
-      })
-      .then((res) => {
-        message.success("Signup successful");
-        localStorage.setItem("isLoggedIn", "true");
-        localStorage.setItem("userInfo", JSON.stringify(res.data));
-        dispatch(setLogIn({}));
-        dispatch(setUserInfo(res.data));
-        navigate("/");
-        console.log(res);
-      })
-      .catch((e) => {
-        message.error("Signup failed");
-        console.log(e);
-      });
-  };
   return (
-    <div className="flex items-center justify-center ">
-      <div className="rounded-md w-[30%] p-4 ">
-        <div className="flex w-full justify-center items-center font-semibold text-[24px] mb-4 ">
-          <span>Sign Up</span>
-        </div>
-        <div>
-          <Form
-            form={form}
-            name="basic"
-            initialValues={{ remember: true }}
-            autoComplete="off"
-            layout="vertical"
-          >
-            <Form.Item<any>
-              label="Username"
-              name="username"
-              rules={[
-                { required: true, message: "Please input your username!" },
-              ]}
-            >
-              <Input />
-            </Form.Item>
-            <Form.Item<any>
-              label="Email"
-              name="email"
-              rules={[{ required: true, message: "Please input your email!" }]}
-            >
-              <Input />
-            </Form.Item>
-
-            <Form.Item<any>
-              label="Password"
-              name="password"
-              rules={[
-                { required: true, message: "Please input your password!" },
-              ]}
-            >
-              <Input.Password />
-            </Form.Item>
-            <Form.Item<any>
-              label="Confirm Password"
-              name="confirm_password"
-              rules={[
-                { required: true, message: "Please confirm your password!" },
-              ]}
-            >
-              <Input.Password />
-            </Form.Item>
-            <Form.Item<any>
-              label="Phone Number"
-              name="phoneNumber"
-              rules={[
-                { required: true, message: "Please input your phone number!" },
-              ]}
-            >
-              <Input />
-            </Form.Item>
-            <div>
-              <span
-                className="text-blue-500 cursor-pointer"
-                onClick={() => {
-                  showModal();
-                }}
-              >
-                Join premium membership?
-              </span>
-            </div>
-            <div className="w-full flex justify-center mt-4">
-              <Button
-                type="primary"
-                htmlType="submit"
-                onClick={() => {
-                  console.log(
-                    {
-                      ...form.getFieldsValue(),
-                      role: "member",
-                      membership_type: isPremiumMember ? "premium" : "regular",
-                    },
-                    "form values"
-                  );
-                  signUp(form.getFieldsValue());
-                }}
-              >
-                Submit
-              </Button>
-            </div>
-          </Form>
-        </div>
-      </div>
-      <Modal
-        title="Premium membership"
-        open={isModalOpen}
-        onOk={handleOk}
-        onCancel={handleCancel}
-        okText={"Pay"}
-      >
-        Premium membership costs 15$ per year
-      </Modal>
+    <div>
+      <h2>Sign Up</h2>
+      <form onSubmit={handleSignUp}>
+        <InputField label="Username" type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
+        {errors.username && <p>{errors.username}</p>}
+        <InputField label="Email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+        {errors.email && <p>{errors.email}</p>}
+        <InputField label="Password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+        {errors.password && <p>{errors.password}</p>}
+        <button type="submit" disabled={isLoading}>{isLoading ? 'Signing Up...' : 'Sign Up'}</button>
+      </form>
     </div>
   );
 };
 
-export default Signup;
+export default SignUp;

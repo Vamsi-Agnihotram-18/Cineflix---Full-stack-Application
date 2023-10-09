@@ -1,114 +1,85 @@
-import React, { useEffect, useState } from "react";
-import { BASE_URL } from "../../../env";
-import axios from "axios";
-import AnalyticsCharts from "./AnalyticsCharts";
-//import './AnalyticsCharts.tsx'
+import React, { useEffect, useState, useMemo } from 'react';
 
-const Analytics = () => {
-  const [analytics, setAnalytics] = useState<any>();
-  const getAnalytics = () => {
-    axios
-      .get(BASE_URL + "analytics/occupancy")
-      .then((res) => {
-        console.log(res.data);
-        setAnalytics(res.data);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  };
+interface AnalyticsData {
+  movieId: number;
+  location: string;
+  date: string;
+  bookings: number;
+}
+
+// Utility Functions
+const filterByDateRange = (data: AnalyticsData[], days: number) => {
+  // ... existing logic
+};
+
+const groupData = (data: AnalyticsData[]) => {
+  // ... existing logic
+};
+
+// Presentation Component for Grouped Data
+const GroupedAnalytics = ({ data }: { data: ReturnType<typeof groupData> }) => {
+  return (
+    <ul>
+      {Object.keys(data).map((location) => (
+        <li key={location}>
+          <h3>{location}</h3>
+          <ul>
+            {Object.entries(data[location]).map(([movie, bookings]) => (
+              <li key={movie}>
+                {movie}: {bookings} bookings
+              </li>
+            ))}
+          </ul>
+        </li>
+      ))}
+    </ul>
+  );
+};
+
+const Analytics: React.FC = () => {
+  const [analyticsData, setAnalyticsData] = useState<AnalyticsData[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState('');
 
   useEffect(() => {
-    getAnalytics();
+    // Fetch data asynchronously from the API
+    const fetchData = async () => {
+      setIsLoading(true);
+      try {
+        // Replace this with actual API call
+        const response = await fetch('/analytics');
+        const data: AnalyticsData[] = await response.json();
+        setAnalyticsData(data);
+      } catch (err) {
+        setError('Failed to fetch data');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchData();
   }, []);
+
+  const renderAnalytics = (days: number) => {
+    const filteredData = useMemo(() => filterByDateRange(analyticsData, days), [analyticsData, days]);
+    const groupedData = useMemo(() => groupData(filteredData), [filteredData]);
+
+    return (
+      <div>
+        <h2>Analytics for {days} Days</h2>
+        <GroupedAnalytics data={groupedData} />
+      </div>
+    );
+  };
+
+  if (isLoading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error}</p>;
 
   return (
     <div>
-      {/* <AnalyticsCharts analytics={analytics}/> */}
-      <div>
-        <div className="mb-3">Location vs Tickets booked analysis</div>
-        <div>
-          <div className="mb-2">In 30 days period</div>
-          <div>
-            {analytics?.locations_30_days &&
-              Object.entries(analytics?.locations_30_days!).map(
-                ([key, value]: any) => (
-                  <div className="w-[95%]  border-solid border-[#e0e0e0] border-[1px] p-3 rounded-md bg-white mb-2">
-                    {key}:{value}
-                  </div>
-                )
-              )}
-          </div>
-        </div>
-        <div>
-          <div className="mb-2">In 60 days period</div>
-          <div>
-            {analytics?.locations_60_days &&
-              Object.entries(analytics?.locations_60_days!).map(
-                ([key, value]: any) => (
-                  <div className="w-[95%]  border-solid border-[#e0e0e0] border-[1px] p-3 rounded-md bg-white mb-2">
-                    {key}:{value}
-                  </div>
-                )
-              )}
-          </div>
-        </div>
-        <div>
-          <div className="mb-2">In 90 days period</div>
-          <div>
-            {analytics?.locations_90_days &&
-              Object.entries(analytics?.locations_90_days!).map(
-                ([key, value]: any) => (
-                  <div className="w-[95%]  border-solid border-[#e0e0e0] border-[1px] p-3 rounded-md bg-white mb-2">
-                    {key}:{value}
-                  </div>
-                )
-              )}
-          </div>
-        </div>
-      </div>
-      <div>
-        <div className="mb-3">Movie vs Ticket Booked analysis</div>
-        <div>
-          <div className="mb-2">Past 30 days</div>
-          <div>
-            {analytics?.movies_30_days &&
-              Object.entries(analytics?.movies_30_days!).map(
-                ([key, value]: any) => (
-                  <div className="w-[95%]  border-solid border-[#e0e0e0] border-[1px] p-3 rounded-md bg-white mb-2">
-                    {value?.name}:{value?.occupancy}
-                  </div>
-                )
-              )}
-          </div>
-        </div>
-        <div>
-          <div className="mb-2">Past 60 days</div>
-          <div>
-            {analytics?.movies_60_days &&
-              Object.entries(analytics?.movies_60_days!).map(
-                ([key, value]: any) => (
-                  <div className="w-[95%]  border-solid border-[#e0e0e0] border-[1px] p-3 rounded-md bg-white mb-2">
-                    {value?.name}:{value?.occupancy}
-                  </div>
-                )
-              )}
-          </div>
-        </div>
-        <div>
-          <div className="mb-2">Past 90 days</div>
-          <div>
-            {analytics?.movies_90_days &&
-              Object.entries(analytics?.movies_90_days!).map(
-                ([key, value]: any) => (
-                  <div className="w-[95%]  border-solid border-[#e0e0e0] border-[1px] p-3 rounded-md bg-white mb-2">
-                    {value?.name}:{value?.occupancy}
-                  </div>
-                )
-              )}
-          </div>
-        </div>
-      </div>
+      {renderAnalytics(30)}
+      {renderAnalytics(60)}
+      {renderAnalytics(90)}
     </div>
   );
 };
