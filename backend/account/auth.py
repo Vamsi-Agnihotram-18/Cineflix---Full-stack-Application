@@ -7,7 +7,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from jwt import DecodeError, ExpiredSignatureError, decode, encode
 from rest_framework.authentication import BaseAuthentication, get_authorization_header
 
-from .models import Account, Token
+from account.models import User, Token
 
 
 class APIAccessAuthentication(BaseAuthentication):
@@ -65,9 +65,9 @@ class APIAccessAuthentication(BaseAuthentication):
         return (user, token)
 
     @staticmethod
-    def generate_jwt_token(account: Account) -> str:
+    def generate_jwt_token(user: User) -> str:
         payload = {
-            "account": account.id,
+            "user": user.id,
             "aud": apps.get_app_config("account").BACKEND_JWT_AUD,
             "exp": datetime.now() + timedelta(days=60),
         }

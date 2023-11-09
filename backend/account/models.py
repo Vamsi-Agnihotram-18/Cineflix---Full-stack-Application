@@ -3,8 +3,23 @@ from common.models import BaseModel
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from phonenumber_field.modelfields import PhoneNumberField
 from django.utils.crypto import get_random_string
+import uuid
+
 
 # Create your models here.
+class UserManager(BaseUserManager):
+    def create_user(self, email, password, username, phoneNumber, role, **extra_fields):
+        if not email:
+            raise ValueError("The Email must be set")
+        email = self.normalize_email(email)
+        extra_fields.setdefault("user_id", uuid.uuid4())
+        user = self.model(email=email, username=username, phoneNumber=phoneNumber, role=role, **extra_fields)
+        user.set_password(password)
+        user.save()
+        return user
+
+    def create_superuser(self, email, password, username, phoneNumber, role, **extra_fields):
+        return self.create_user(email, password, username, phoneNumber, role, **extra_fields)
 
 
 class User(AbstractBaseUser):
@@ -27,6 +42,10 @@ class User(AbstractBaseUser):
     phoneNumber = PhoneNumberField()
     rewardPoints = models.FloatField(default=0)
     membership_type = models.CharField(choices=MEMBERSHIP_CHOICES, blank=True, null=True)
+
+    objects = UserManager()
+    USERNAME_FIELD = "email"
+    REQUIRED_FIELDS = []
 
     def __str__(self):
         return f"<User {self.user_id} | {self.username} | {self.email} | {self.role}>"

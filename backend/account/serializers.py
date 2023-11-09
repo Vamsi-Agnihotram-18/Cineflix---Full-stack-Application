@@ -3,20 +3,19 @@ from rest_framework import serializers
 from rest_framework.exceptions import AuthenticationFailed
 from rest_framework.validators import UniqueValidator
 from account.models import User
+from phonenumber_field.serializerfields import PhoneNumberField
 
 INVALID_CRED_TXT = "Invalid Credentials"
 
 
 class SignUpSerializer(serializers.ModelSerializer):
-    email = serializers.EmailField(required=True, validators=[UniqueValidator(queryset=Account.objects.all())])
-
-    id_token = serializers.CharField(required=False)
-
+    email = serializers.EmailField(required=True, validators=[UniqueValidator(queryset=User.objects.all())])
     password = serializers.CharField(write_only=True, required=True, validators=[validate_password])
     confirm_password = serializers.CharField(write_only=True, required=True)
 
-    name = serializers.CharField(max_length=64, required=True)
-    company = serializers.CharField(max_length=64, required=True)
+    role = serializers.ChoiceField(choices=User.ROLE_CHOICES, required=True)
+    username = serializers.CharField(max_length=24, required=True)
+    phoneNumber = PhoneNumberField()
 
     class Meta:
         model = User

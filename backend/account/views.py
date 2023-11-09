@@ -1,13 +1,12 @@
 from account.serializers import SignUpSerializer, LoginSerializer
 from account.auth import APIAccessAuthentication
-from core.mixins import ApiAuthenticationMixin
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from account.models import Token
 
 
-class UserSignUpAPI(ApiAuthenticationMixin, APIView):
+class UserSignUpAPI(APIView):
     InputSerializer = SignUpSerializer
 
     def post(self, request):
@@ -28,7 +27,7 @@ class UserSignUpAPI(ApiAuthenticationMixin, APIView):
         )
 
 
-class UserLoginAPI(ApiAuthenticationMixin, APIView):
+class UserLoginAPI(APIView):
     InputSerializer = LoginSerializer
 
     def post(self, request):
