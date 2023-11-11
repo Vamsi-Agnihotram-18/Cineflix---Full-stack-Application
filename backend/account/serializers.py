@@ -9,12 +9,12 @@ INVALID_CRED_TXT = "Invalid Credentials"
 
 
 class SignUpSerializer(serializers.ModelSerializer):
-    email = serializers.EmailField(required=True, validators=[UniqueValidator(queryset=User.objects.all())])
+    email = serializers.EmailField(required=True)
     password = serializers.CharField(write_only=True, required=True, validators=[validate_password])
     confirm_password = serializers.CharField(write_only=True, required=True)
 
     role = serializers.ChoiceField(choices=User.ROLE_CHOICES, required=True)
-    username = serializers.CharField(max_length=24, required=True)
+    username = serializers.CharField(max_length=24, required=False)
     phoneNumber = PhoneNumberField()
 
     class Meta:
@@ -35,6 +35,11 @@ class SignUpSerializer(serializers.ModelSerializer):
             validated_data["role"],
         )
         return user
+
+    # def to_representation(self, instance):
+    #     data = super().to_representation(instance)
+    #     data["phoneNumber"] = str(instance.phoneNumber)
+    #     return data
 
 
 class LoginSerializer(serializers.Serializer):

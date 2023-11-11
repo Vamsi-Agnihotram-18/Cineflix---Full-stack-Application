@@ -36,12 +36,13 @@ class User(AbstractBaseUser):
     MEMBERSHIP_CHOICES = [(REGULAR, "Regular"), (PREMIUM, "Premium")]
     id = models.AutoField(primary_key=True)
     user_id = models.UUIDField()
-    username = models.CharField(max_length=24, unique=True)
+    username = models.CharField(max_length=24, blank=True, null=True)
     email = models.EmailField(max_length=254, unique=True)
     role = models.CharField(choices=ROLE_CHOICES, max_length=24)
     phoneNumber = PhoneNumberField()
     rewardPoints = models.FloatField(default=0)
     membership_type = models.CharField(choices=MEMBERSHIP_CHOICES, blank=True, null=True)
+    password = models.CharField(max_length=128, blank=True, null=True)
 
     objects = UserManager()
     USERNAME_FIELD = "email"
