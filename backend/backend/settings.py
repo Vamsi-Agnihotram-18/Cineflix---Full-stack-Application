@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     # Third party
     'phonenumber_field',
     # Local
-    'account'
+    'account',
+    'movie'
 ]
 
 MIDDLEWARE = [
