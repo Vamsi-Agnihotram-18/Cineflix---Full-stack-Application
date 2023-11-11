@@ -1,15 +1,12 @@
 from account.models import User
 from django.contrib.gis.db import models
-from django.utils import timezone
 from common.models import BaseModel
 
 
 # Create your models here.
-class Theater(models.Model):
+class Theater(BaseModel):
     name = models.CharField(max_length=128)
     location = models.PointField()
-    created_at = models.DateTimeField(db_index=True, default=timezone.now)
-    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return f"<Theater {self.name}>"
