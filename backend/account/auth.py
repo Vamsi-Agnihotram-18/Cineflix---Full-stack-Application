@@ -1,5 +1,4 @@
 from datetime import datetime, timedelta
-from urllib.parse import urlparse
 
 from core.errors import ErrorCodes, InvalidAuthentication
 from django.apps import apps
@@ -56,9 +55,9 @@ class APIAccessAuthentication(BaseAuthentication):
         except DecodeError:
             raise InvalidAuthentication("Malformed token.", code=ErrorCodes.access_token_malformed)
 
-        account_id = decoded_token["account"]
+        user_id = decoded_token["user"]
         try:
-            user = Account.objects.get(id=account_id)
+            user = User.objects.get(id=user_id)
         except ObjectDoesNotExist:
             raise InvalidAuthentication("No such user")
 
