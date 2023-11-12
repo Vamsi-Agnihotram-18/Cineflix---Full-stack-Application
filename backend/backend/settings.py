@@ -38,11 +38,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # Third party
-    'phonenumber_field',
     # Local
     'account',
-    'movie'
+    'movie',
+    # Third party
+    'phonenumber_field'
 ]
 
 MIDDLEWARE = [
@@ -85,7 +85,7 @@ DATABASES = {
         'NAME': 'postgres',
         'USER': 'postgres',
         'PASSWORD': 'postgres',
-        'HOST': 'db',
+        'HOST': 'teamproject-sublimesprint-db-1',
         'PORT': 5432
     }
 }

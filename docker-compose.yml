@@ -8,12 +8,12 @@ services:
     ports:
       - "8000:8000"
     depends_on:
-      - db
+      - teamproject-sublimesprint-db-1
     volumes:
       - ./backend:/code
     restart: always
   
-  db:
+  teamproject-sublimesprint-db-1:
     image: postgres
     ports:
       - "5432:5432"
