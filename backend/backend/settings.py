@@ -85,7 +85,7 @@ DATABASES = {
         'NAME': 'postgres',
         'USER': 'postgres',
         'PASSWORD': 'postgres',
-        'HOST': 'teamproject-sublimesprint-db-1',
+        'HOST': 'db',
         'PORT': 5432
     }
 }
