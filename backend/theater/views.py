@@ -14,6 +14,7 @@ class TheaterCreateAPI(ApiAuthenticationMixin, APIView):
         serializer = self.Serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         data = serializer.validated_data
+        # theater = serializer.create(data)
         theater = theater_create(**data)
         return Response({"theater": self.Serializer(instance=theater).data}, status=status.HTTP_201_CREATED)
 

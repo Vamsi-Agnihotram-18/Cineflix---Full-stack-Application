@@ -15,7 +15,7 @@ def theater_create(
     return theater
 
 
-def screen_create(*, name: str, theater: Theater, no_of_rows: int, no_of_cols: int) -> Screen:
-    screen = Screen(name=name, theater=theater, no_of_rows=no_of_rows, no_of_cols=no_of_cols)
+def screen_create(*, name: str, theater_id: int, no_of_rows: int, no_of_cols: int) -> Screen:
+    screen = Screen(name=name, theater_id=theater_id, no_of_rows=no_of_rows, no_of_cols=no_of_cols)
     screen.save()
     return screen

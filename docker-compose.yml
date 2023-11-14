@@ -13,8 +13,9 @@ services:
       - ./backend:/code
     restart: always
   
-  teamproject-sublimesprint-db-1:
-    image: postgres
+  db:
+    image: postgis/postgis:13-3.1
+    platform: linux/amd64
     ports:
       - "5432:5432"
     volumes:
