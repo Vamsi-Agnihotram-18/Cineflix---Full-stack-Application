@@ -1,69 +1,47 @@
-import { Card, Button } from "antd";
-import React, { useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import { ITheater } from "../../../Interfaces/theater.interface";
-import { theatres_data } from "../../../data/Theatres/theatres_data";
-import dayjs from "dayjs";
+import React, { useMemo } from 'react';
+import { Card, Button } from 'antd';
+import { useNavigate } from 'react-router-dom';
+import dayjs from 'dayjs';
+import { ITheater } from '../../../Interfaces/theater.interface';
 
-export interface TheatreListByMovie {
+export interface TheatreListByMovieProps {
   date: string;
-  theaters: any;
+  theaters: Array<{
+    theater: ITheater;
+    shows: Array<{ id: number; show_timing: string }>;
+  }>;
 }
 
-const TheatreListByMovie = (props: TheatreListByMovie) => {
+const TheatreListByMovie: React.FC<TheatreListByMovieProps> = ({ date, theaters }) => {
   const navigate = useNavigate();
 
-  useEffect(() => {
-    console.log(props.theaters, "theaters data");
-  }, [props]);
+  const formattedTheaters = useMemo(() => theaters.map(theater => ({
+    ...theater,
+    theaterName: theater.theater.name.length > 30 ? `${theater.theater.name.substring(0, 30)}...` : theater.theater.name
+  })), [theaters]);
 
   return (
     <div className="pt-10 w-[80%] grid grid-cols-2 gap-6">
-      {props?.theaters?.map(
-        (theater: {
-          theater: ITheater;
-          shows: Array<{ id: number; show_timing: string }>;
-        }) => {
-          return (
-            <Card
-              title={
-                theater?.theater?.name?.length > 30 ? (
-                  <span className="font-bold">
-                    {theater.theater.name.substring(0, 30) + "..."}
-                  </span>
-                ) : (
-                  <span className="font-bold">{theater?.theater?.name}</span>
-                )
-              }
-              style={{ minWidth: 300 }}
-              className="cursor-pointer"
-            >
-              <div>{theater?.theater.short_address}</div>
-              <div className="flex flex-wrap gap-3 pt-8">
-                {theater?.shows?.map(
-                  (show: { id: number; show_timing: string }) => {
-                    return (
-                      <Button
-                        onClick={() => {
-                          // navigate(
-                          //   `/seatmap?theaterId=${data.id}&movieId=${theater.theater.id}&showDate=${props.date}&showTime=${time}`,
-                          //   {
-                          //     state: data,
-                          //   }
-                          // );
-                          navigate(`/seatmap/${show.id}`);
-                        }}
-                      >
-                        {dayjs(show.show_timing).format("h:mm A")}
-                      </Button>
-                    );
-                  }
-                )}
-              </div>
-            </Card>
-          );
-        }
-      )}
+      {formattedTheaters.map((theater) => (
+        <Card
+          key={theater.theater.id}
+          title={<span className="font-bold">{theater.theaterName}</span>}
+          style={{ minWidth: 300 }}
+          className="cursor-pointer"
+        >
+          <div>{theater.theater.short_address}</div>
+          <div className="flex flex-wrap gap-3 pt-8">
+            {theater.shows.map((show) => (
+              <Button
+                key={show.id}
+                onClick={() => navigate(`/seatmap/${show.id}`)}
+              >
+                {dayjs(show.show_timing).format("h:mm A")}
+              </Button>
+            ))}
+          </div>
+        </Card>
+      ))}
     </div>
   );
 };

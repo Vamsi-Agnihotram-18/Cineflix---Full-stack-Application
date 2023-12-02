@@ -1,70 +1,63 @@
-import React, { useEffect } from "react";
-import { IShow } from "../../../Interfaces/show.interface";
-import dayjs from "dayjs";
-import axios from "axios";
-import { BASE_URL } from "../../../env";
-import { DeleteOutlined, DeleteTwoTone } from "@ant-design/icons";
+import React, { useCallback } from 'react';
+import { IShow } from '../../../Interfaces/show.interface';
+import dayjs from 'dayjs';
+import axios from 'axios';
+import { BASE_URL } from '../../../env';
+import { DeleteTwoTone } from '@ant-design/icons';
+import { message } from 'antd';
 
 export interface IShowInterface {
   showModal: (type: string) => void;
   shows: Array<IShow>;
   getShows: () => void;
-  form: any;
-  setSelectedShow: any;
+  form: any; // Consider using a more specific type
+  setSelectedShow: (show: IShow) => void;
 }
-
-const Shows = ({
+const Shows: React.FC<IShowInterface> = ({
   showModal,
   shows,
   getShows,
   form,
   setSelectedShow,
-}: IShowInterface) => {
-  useEffect(() => {
-    console.log(shows, "shows");
-  }, [shows]);
-  const DeleteShow = (id: number) => {
+}) => {
+  const deleteShow = useCallback((id: number, event: React.MouseEvent) => {
+    event.stopPropagation();
     axios
-      .delete(BASE_URL + "shows/show/" + id)
-      .then((res) => {
-        console.log(res);
+      .delete(`${BASE_URL}shows/show/${id}`)
+      .then(() => {
+        message.success('Show deleted successfully');
         getShows();
       })
-      .catch((e) => {
-        console.log(e);
+      .catch(() => {
+        message.error('Failed to delete show');
       });
-  };
+  }, [getShows]);
+
+  const handleShowClick = useCallback((show: IShow) => {
+    setSelectedShow(show);
+    form.setFieldsValue(show);
+    // showModal('shows'); // Uncomment if needed
+  }, [form, setSelectedShow]);
 
   return (
     <div>
-      {shows?.map((show: IShow) => {
-        return (
-          <div
-            className="w-[95%] border-[1px] border-solid border-[#e0e0e0] p-3 mb-2 rounded-md  flex items-between justify-between"
-            onClick={() => {
-              console.log(show);
-              setSelectedShow(show);
-              form.setFieldsValue(show);
-              //   showModal("shows");
-            }}
-          >
-            <div className="flex items-center">
-              <div className="mr-4"> Movie :{show.movie.name}</div>{" "}
-              <div className="mr-4">Theater :{show.theater.name}</div>
-              <div className="mr-4">
-                Show Timing :
-                {dayjs(show.show_timing).format("dddd, MMMM DD, YYYY, h:mm A ")}
-              </div>
-            </div>
-            <DeleteTwoTone
-              className="cursor-pointer"
-              onClick={() => {
-                DeleteShow(show.id);
-              }}
-            />
+      {shows.map((show) => (
+        <div
+          key={show.id}
+          className="w-[95%] border-[1px] border-solid border-[#e0e0e0] p-3 mb-2 rounded-md flex justify-between items-center"
+          onClick={() => handleShowClick(show)}
+        >
+          <div>
+            <div>Movie: {show.movie.name}</div>
+            <div>Theater: {show.theater.name}</div>
+            <div>Show Timing: {dayjs(show.show_timing).format('dddd, MMMM DD, YYYY, h:mm A')}</div>
           </div>
-        );
-      })}
+          <DeleteTwoTone
+            className="cursor-pointer"
+            onClick={(event) => deleteShow(show.id, event)}
+          />
+        </div>
+      ))}
     </div>
   );
 };
