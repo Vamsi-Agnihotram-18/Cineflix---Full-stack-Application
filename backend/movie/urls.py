@@ -1,9 +1,7 @@
 from django.urls import path
-from .views import movie_list, movie_detail, MovieCreateView
+from movie.views import MovieListCreateAPI, MovieGetUpdateDeleteAPI
 
 urlpatterns = [
-    path('movies/', movie_list, name='movie_list'),
-    path('movies/<int:movie_id>/', movie_detail, name='movie_detail'),
-    path('movies/create/', MovieCreateView.as_view(), name='movie_create'),
-    # Add other URL patterns as needed
+    path("movie", MovieListCreateAPI.as_view(), name="movie-list-create-api"),
+    path("movie/<int:pk>", MovieGetUpdateDeleteAPI.as_view(), name="movie-get-update-delete-api"),
 ]

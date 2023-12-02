@@ -7,16 +7,13 @@ from django.db import models
 class Theater(BaseModel):
     name = models.CharField(max_length=128)
     location = PointField()
-
+    address = models.CharField(default="")
+    short_address = models.CharField(default="")
+    zip_code = models.CharField(max_length=8)
+    technologies = models.JSONField(default=list)
+    cuisines = models.JSONField(default=list)
+    shows = models.JSONField(default=list)
+    no_of_rows = models.IntegerField(default=0)
+    no_of_cols = models.IntegerField(default=0)
     def __str__(self):
         return f"<Theater {self.name}>"
-
-
-class Screen(BaseModel):
-    name = models.CharField(max_length=16)
-    theater = models.ForeignKey(Theater, on_delete=models.CASCADE)
-    no_of_rows = models.IntegerField()
-    no_of_cols = models.IntegerField()
-
-    def __str__(self):
-        return f"<Screen {self.name} | {self.theatre.name}>"

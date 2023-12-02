@@ -1,5 +1,6 @@
 from django.db import models
 import uuid
+from django.utils import timezone
 
 class CastMember(models.Model):
     name = models.CharField(max_length=255)
@@ -10,15 +11,13 @@ class CastMember(models.Model):
         return self.name
 
 class Movie(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=255)
-    release_date = models.DateField()
-    runtime = models.CharField(max_length=10)
-    genre = models.CharField(max_length=255)
+    runtime = models.IntegerField()
+    genre = models.CharField(max_length=255, default='Default Genre')
+    start_date = models.DateField(default=timezone.now)
     rating = models.FloatField()
-    show_timings = models.JSONField(default=list)  # Assuming a list of strings
     description = models.TextField()
-    cast = models.ManyToManyField(CastMember)
+    image_url = models.URLField(null=True, blank=True, max_length=500)
 
     def __str__(self):
         return self.name

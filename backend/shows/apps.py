@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class ShowConfig(AppConfig):
+class ShowsConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'Show'
+    name = 'shows'
