@@ -8,12 +8,12 @@ import uuid
 
 # Create your models here.
 class UserManager(BaseUserManager):
-    def create_user(self, email, password, username, phoneNumber, role, **extra_fields):
+    def create_user(self, email, password, username, phoneNumber, role, is_admin, **extra_fields):
         if not email:
             raise ValueError("The Email must be set")
         email = self.normalize_email(email)
         extra_fields.setdefault("user_id", uuid.uuid4())
-        user = self.model(email=email, username=username, phoneNumber=phoneNumber, role=role, **extra_fields)
+        user = self.model(email=email, username=username, phoneNumber=phoneNumber, role=role, is_admin=is_admin, **extra_fields)
         user.set_password(password)
         user.save()
         return user
@@ -35,7 +35,7 @@ class User(AbstractBaseUser):
     PREMIUM = "premium"
     MEMBERSHIP_CHOICES = [(REGULAR, "Regular"), (PREMIUM, "Premium")]
     id = models.AutoField(primary_key=True)
-    user_id = models.UUIDField()
+    user_id = models.UUIDField(blank=True, null=True)
     username = models.CharField(max_length=24, blank=True, null=True)
     email = models.EmailField(max_length=254, unique=True)
     role = models.CharField(choices=ROLE_CHOICES, max_length=24)
@@ -43,7 +43,8 @@ class User(AbstractBaseUser):
     rewardPoints = models.FloatField(default=0)
     membership_type = models.CharField(choices=MEMBERSHIP_CHOICES, blank=True, null=True)
     password = models.CharField(max_length=128, blank=True, null=True)
-
+    is_admin = models.BooleanField(default=False)
+    
     objects = UserManager()
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []

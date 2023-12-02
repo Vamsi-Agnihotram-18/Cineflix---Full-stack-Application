@@ -25,7 +25,7 @@ SECRET_KEY = "django-insecure-n8s+@l4#)uxtc(@2=h&f*x*)jpen8c)_bix@g2!8yic1h$drrb
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -41,12 +41,18 @@ INSTALLED_APPS = [
     "django.contrib.gis",
     # Third party
     "phonenumber_field",
+    "corsheaders",
     # Local
     "account",
     "theater",
+    "movie",
+    "shows",
+    "booking",
+    "analytics"
 ]
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -86,7 +92,7 @@ DATABASES = {
         "NAME": "postgres",
         "USER": "postgres",
         "PASSWORD": "postgres",
-        "HOST": "db",
+        "HOST": "postgres.cjfntnza4sht.us-east-1.rds.amazonaws.com",
         "PORT": 5432,
     }
 }
@@ -121,6 +127,7 @@ USE_I18N = True
 
 USE_TZ = True
 
+SERVICE_FEE = 1.5
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
@@ -131,3 +138,4 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+CORS_ALLOW_ALL_ORIGINS = True
