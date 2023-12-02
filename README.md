@@ -4,10 +4,10 @@ teamproject-sublimesprint created by GitHub Classroom
 # Sublimesprint
 
 ## Team members:
-Sri Ranga Pabbisetty,  <br>
-Komal Kumar Vasireddy,   <br>
-Surya Vamsi Krishna Pulapa,   <br>
-Vamsi Krishna Agnihotram   <br>
+Sri Ranga Pabbisetty - 017103164,  <br>
+Komal Kumar Vasireddy - 017422353,   <br>
+Surya Vamsi Krishna Pulapa - 017428710,   <br>
+Vamsi Krishna Agnihotram - 016920709  <br>
 
 ## Contributions:
 
@@ -66,5 +66,9 @@ We have ensured too keep the design and implementation simple, and ensured only 
 
 ## Deployment Diagram
 ![image](https://github.com/gopinathsjsu/teamproject-sublimesprint/assets/58915523/fe2b03b0-d8c9-46ce-a718-44f97ca4e31c)
+
+## Wireframes
+![image](https://github.com/gopinathsjsu/teamproject-sublimesprint/assets/58915523/8a774fdb-c461-4935-adc0-6bc3217034b4)
+
 
 
