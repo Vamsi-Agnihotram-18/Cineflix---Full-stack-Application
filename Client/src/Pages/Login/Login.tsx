@@ -9,6 +9,7 @@ import {
   setLogIn,
   setUserInfo,
 } from "../../state/reducers/authReducer/authReducer";
+import { BASE_URL } from "../../env";
 
 const Login = () => {
   const [form] = useForm();
@@ -16,7 +17,7 @@ const Login = () => {
   const dispatch = useDispatch();
   const logIn = (data: IlogIn) => {
     axios
-      .post("http://localhost:8000/account/login", data)
+      .post(BASE_URL+"account/login", data)
       .then((res) => {
         message.success("Login successful");
         localStorage.setItem("isLoggedIn", "true");

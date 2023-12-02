@@ -24,8 +24,8 @@ const Analytics = () => {
 
   return (
     <div>
-      <AnalyticsCharts analytics={analytics}/>
-      {/* <div>
+      {/* <AnalyticsCharts analytics={analytics}/> */}
+      <div>
         <div className="mb-3">Location vs Tickets booked analysis</div>
         <div>
           <div className="mb-2">In 30 days period</div>
@@ -66,7 +66,7 @@ const Analytics = () => {
               )}
           </div>
         </div>
-      </div> */}
+      </div>
       <div>
         <div className="mb-3">Movie vs Ticket Booked analysis</div>
         <div>

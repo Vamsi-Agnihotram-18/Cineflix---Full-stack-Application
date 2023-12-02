@@ -9,6 +9,7 @@ import {
   setUserInfo,
 } from "../../state/reducers/authReducer/authReducer";
 import { useNavigate } from "react-router-dom";
+import { BASE_URL } from "../../env";
 
 const Signup = () => {
   const [form] = useForm();
@@ -32,7 +33,7 @@ const Signup = () => {
 
   const signUp = (data: ISignUp) => {
     axios
-      .post("http://127.0.0.1:8000/account/sign_up", {
+      .post(BASE_URL+"account/sign_up", {
         ...data,
         role: "member",
         membership_type: isPremiumMember ? "premium" : "regular",
