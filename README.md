@@ -4,9 +4,9 @@ teamproject-sublimesprint created by GitHub Classroom
 # Sublimesprint
 
 ## Team members:
-Sri Ranga Pabbisetty
-Komal Kumar Vasireddy
-Surya Vamsi Krishna Pulapa
+Sri Ranga Pabbisetty, 
+Komal Kumar Vasireddy,
+Surya Vamsi Krishna Pulapa,
 Vamsi Krishna Agnihotram
 
 ## Contributions:
