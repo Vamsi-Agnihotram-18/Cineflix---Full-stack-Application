@@ -67,4 +67,8 @@ We have ensured too keep the design and implementation simple, and ensured only 
 ## Deployment Diagram
 ![image](https://github.com/gopinathsjsu/teamproject-sublimesprint/assets/58915523/fe2b03b0-d8c9-46ce-a718-44f97ca4e31c)
 
+## Wireframes
+![image](https://github.com/gopinathsjsu/teamproject-sublimesprint/assets/58915523/8a774fdb-c461-4935-adc0-6bc3217034b4)
+
+
 
