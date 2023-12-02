@@ -59,3 +59,7 @@ We as a team had frequent, face-to-face interactions generally before the class 
 
 ### Simplicity:
 We have ensured too keep the design and implementation simple, and ensured only to meet the requirements without adding unnecessary features or code.
+
+## Deployment Diagram
+![image](https://github.com/gopinathsjsu/teamproject-sublimesprint/assets/58915523/fe2b03b0-d8c9-46ce-a718-44f97ca4e31c)
+
