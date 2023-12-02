@@ -1,9 +1,9 @@
 from django.urls import path
-from account.views import UserLoginAPI, UserSignUpAPI, UserGetUpdateAPI
-
+from account.views import CustomUserLoginAPI, CustomUserRegistrationAPI, CustomUserDetailsAPI, CinemaOccupancyView
 
 urlpatterns = [
-    path("sign_up", UserSignUpAPI.as_view(), name="sign_up"),
-    path("login", UserLoginAPI.as_view(), name="login"),
-    path("user/<int:id>", UserGetUpdateAPI.as_view(), name="user-get-update-api")
+    path("sign-up/", CustomUserRegistrationAPI.as_view(), name="custom-user-sign-up"),
+    path("login/", CustomUserLoginAPI.as_view(), name="custom-user-login"),
+    path("user/<int:id>/", CustomUserDetailsAPI.as_view(), name="custom-user-details-api"),
+    path("occupancy", CinemaOccupancyView.as_view(), name="cinema-occupancy-view"),
 ]

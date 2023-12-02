@@ -6,12 +6,10 @@ from django.core.exceptions import ObjectDoesNotExist
 from jwt import DecodeError, ExpiredSignatureError, decode, encode
 from rest_framework.authentication import BaseAuthentication, get_authorization_header
 
-from account.models import User, Token
+from account.models import CustomUser, CustomToken
 
-
-class APIAccessAuthentication(BaseAuthentication):
-    # keep these in small case only
-    jwt_keyword = "bearer"
+class CustomAPIAccessAuthentication(BaseAuthentication):
+    JWT_KEYWORD = "bearer"
 
     def authenticate(self, request):
         auth = get_authorization_header(request).split()
@@ -20,7 +18,7 @@ class APIAccessAuthentication(BaseAuthentication):
             return None
 
         lower_keyword = auth[0].lower()
-        if lower_keyword != self.jwt_keyword.encode():
+        if lower_keyword != self.JWT_KEYWORD.encode():
             return None
 
         if len(auth) == 1:
@@ -44,31 +42,39 @@ class APIAccessAuthentication(BaseAuthentication):
 
     def authenticate_jwt(self, token):
         try:
+            app_config = apps.get_app_config("account")
             decoded_token = decode(
                 token,
-                apps.get_app_config("account").BACKEND_JWT_SECRET,
-                audience=apps.get_app_config("account").BACKEND_JWT_AUD,
+                app_config.BACKEND_JWT_SECRET,
+                audience=app_config.BACKEND_JWT_AUD,
                 algorithms=["HS256"],
             )
         except ExpiredSignatureError:
             raise InvalidAuthentication("Signature expired.", code=ErrorCodes.access_token_expired)
         except DecodeError:
             raise InvalidAuthentication("Malformed token.", code=ErrorCodes.access_token_malformed)
+        except UnicodeError:
+            raise InvalidAuthentication(
+                "Invalid token header. Token string should not contain invalid characters.",
+                code=ErrorCodes.access_token_invalid,
+            )
 
         user_id = decoded_token["user"]
         try:
-            user = User.objects.get(id=user_id)
+            user = CustomUser.objects.get(id=user_id)
         except ObjectDoesNotExist:
             raise InvalidAuthentication("No such user")
 
         return (user, token)
 
     @staticmethod
-    def generate_jwt_token(user: User) -> str:
+    def generate_jwt_token(user: CustomUser) -> str:
+        app_config = apps.get_app_config("account")
+        expiration_date = datetime.now() + timedelta(days=60)
         payload = {
             "user": user.id,
-            "aud": apps.get_app_config("account").BACKEND_JWT_AUD,
-            "exp": datetime.now() + timedelta(days=60),
+            "aud": app_config.BACKEND_JWT_AUD,
+            "exp": expiration_date,
         }
-        token = encode(payload, apps.get_app_config("account").BACKEND_JWT_SECRET, algorithm="HS256")
+        token = encode(payload, app_config.BACKEND_JWT_SECRET, algorithm="HS256")
         return token

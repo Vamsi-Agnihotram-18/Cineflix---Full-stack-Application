@@ -8,9 +8,8 @@ from core.errors import InvalidRequestError
 
 INVALID_CRED_TXT = "Invalid Credentials"
 
-
-class SignUpSerializer(serializers.ModelSerializer):
-    email = serializers.EmailField(required=True)
+class CustomSignUpSerializer(serializers.ModelSerializer):
+    email = serializers.EmailField(required=True, validators=[UniqueValidator(queryset=User.objects.all())])
     password = serializers.CharField(write_only=True, required=True, validators=[validate_password])
     confirm_password = serializers.CharField(write_only=True, required=True)
     is_admin = serializers.BooleanField(required=False)
@@ -22,15 +21,6 @@ class SignUpSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ("id", "email", "password", "confirm_password", "username", "phoneNumber", "role", "is_admin")
-
-    def validate_email(self, value):
-        try:
-            user = User.objects.get(email=value)
-            if user:
-                raise serializers.ValidationError(f"User with email: {value} already exists")
-        except User.DoesNotExist:
-            pass
-        return value
 
     def validate(self, attrs):
         if attrs["password"] != attrs["confirm_password"]:
@@ -52,13 +42,8 @@ class SignUpSerializer(serializers.ModelSerializer):
         )
         return user
 
-    # def to_representation(self, instance):
-    #     data = super().to_representation(instance)
-    #     data["phoneNumber"] = str(instance.phoneNumber)
-    #     return data
 
-
-class LoginSerializer(serializers.Serializer):
+class CustomLoginSerializer(serializers.Serializer):
     email = serializers.EmailField(required=True)
     password = serializers.CharField(write_only=True, required=True)
 
@@ -76,11 +61,10 @@ class LoginSerializer(serializers.Serializer):
 
         return attrs
 
-class UserSerializer(serializers.Serializer):
+
+class CustomUserSerializer(serializers.Serializer):
     email = serializers.EmailField()
     role = serializers.ChoiceField(choices=User.ROLE_CHOICES)
     username = serializers.CharField(max_length=24, required=False)
     phoneNumber = PhoneNumberField()
-    membership_type = serializers.ChoiceField(choices=User.MEMBERSHIP_CHOICES)
-    rewardPoints = serializers.IntegerField()
-    is_admin = serializers.BooleanField()
+    # Add other fields from your User model if needed

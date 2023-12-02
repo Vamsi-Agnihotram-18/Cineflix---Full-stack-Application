@@ -12,6 +12,5 @@ class Show(models.Model):
     no_of_cols = models.IntegerField()
     price = models.FloatField(blank=True, null=True, default=10)
     discounted_price = models.FloatField(blank=True, null=True, default=10)
-
     def __str__(self):
         return f"{self.movie} at {self.theater} - {self.show_timing}"

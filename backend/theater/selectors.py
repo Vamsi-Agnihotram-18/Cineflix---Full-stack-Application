@@ -1,5 +1,6 @@
+from core.utils import get_object
 from theater.models import Theater
 
 
 def theater_get(**kwargs) -> Theater:
-    return Theater.objects.get(**kwargs)
+    return get_object(Theater, **kwargs)

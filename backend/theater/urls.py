@@ -1,8 +1,8 @@
 from django.urls import path
-from theater.views import TheaterListCreateAPI, TheaterGetUpdateDeleteAPI
+from theater.views import TheaterCreateAPI, ScreenCreateAPI
 
 
 urlpatterns = [
-    path("theater", TheaterListCreateAPI.as_view(), name="theater-list-create-api"),
-    path("theater/<int:pk>", TheaterGetUpdateDeleteAPI.as_view(), name="theater-get-update-delete-api"),
+    path("theater", TheaterCreateAPI.as_view(), name="theater-create-api"),
+    path("screen", ScreenCreateAPI.as_view(), name="screen-create-api"),
 ]
