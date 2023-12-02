@@ -1,5 +1,4 @@
 from django.db import models
-import uuid
 from django.utils import timezone
 
 class CastMember(models.Model):
@@ -21,4 +20,3 @@ class Movie(models.Model):
 
     def __str__(self):
         return self.name
-

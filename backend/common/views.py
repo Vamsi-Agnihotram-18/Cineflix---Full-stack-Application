@@ -1,6 +1,10 @@
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework import generics
+from django.contrib.auth import authenticate
+from .serializers import UserSerializer, UserLoginSerializer
 
 class UserRegistrationView(APIView):
     def post(self, request):
@@ -10,11 +14,6 @@ class UserRegistrationView(APIView):
             if user_instance:
                 return Response(user_data_serializer.data, status=status.HTTP_201_CREATED)
         return Response(user_data_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
-from rest_framework_simplejwt.tokens import RefreshToken
-from rest_framework import generics
-from django.contrib.auth import authenticate
-from .serializers import UserLoginSerializer
 
 class UserLoginView(generics.GenericAPIView):
     serializer_class = UserLoginSerializer
@@ -22,7 +21,10 @@ class UserLoginView(generics.GenericAPIView):
     def post(self, request, *args, **kwargs):
         login_serializer = self.get_serializer(data=request.data)
         if login_serializer.is_valid():
-            user = authenticate(username=login_serializer.validated_data['username'], password=login_serializer.validated_data['password'])
+            user = authenticate(
+                username=login_serializer.validated_data['username'],
+                password=login_serializer.validated_data['password']
+            )
             if user:
                 refresh_token = RefreshToken.for_user(user)
                 return Response({

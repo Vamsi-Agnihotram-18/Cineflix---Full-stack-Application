@@ -8,13 +8,13 @@ def theater_create(
     short_address: str,
     location: Point,
     zip_code: str,
-    technologies: list,  # New parameter
-    cuisines: list,  # New parameter
-    shows: list,  # New parameter
+    technologies: list,
+    cuisines: list,
+    shows: list,
     no_of_rows: int,
     no_of_cols: int
 ) -> Theater:
-    theater = Theater(
+    theater = Theater.objects.create(
         name=name,
         address=address,
         short_address=short_address,
@@ -26,5 +26,4 @@ def theater_create(
         no_of_rows=no_of_rows,
         no_of_cols=no_of_cols
     )
-    theater.save()
     return theater

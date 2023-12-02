@@ -1,52 +1,52 @@
 from rest_framework import serializers
-from django.contrib.gis.geos import Point
 from .models import Theater
 
-class PointFieldSerializer(serializers.Field):
+
+class PointFieldSerializer(serializers.Serializer):
+    latitude = serializers.FloatField()
+    longitude = serializers.FloatField()
+
     def to_representation(self, value):
         return {"latitude": value.y, "longitude": value.x}
 
     def to_internal_value(self, data):
-        try:
-            # Ensure the latitude and longitude are present in the data.
-            latitude = float(data['latitude'])
-            longitude = float(data['longitude'])
-            return Point(longitude, latitude)
-        except (TypeError, KeyError):
+        latitude = data.get('latitude')
+        longitude = data.get('longitude')
+
+        if latitude is None or longitude is None:
             raise serializers.ValidationError("Longitude and latitude fields must be included.")
 
-class TheaterSerializer(serializers.Serializer):
-    id = serializers.IntegerField(required=False)
-    name = serializers.CharField(max_length=128)
-    address = serializers.CharField()
-    short_address = serializers.CharField()
+        return Point(longitude, latitude)
+
+
+class TheaterSerializer(serializers.ModelSerializer):
     location = PointFieldSerializer()
-    zip_code = serializers.CharField(max_length=8)
-    technologies = serializers.JSONField(default=list)
-    cuisines = serializers.JSONField(default=list)
-    shows = serializers.JSONField(default=list)
-    no_of_rows = serializers.IntegerField(default=0)
-    no_of_cols = serializers.IntegerField(default=0)
+
+    class Meta:
+        model = Theater
+        fields = '__all__'
 
     def create(self, validated_data):
         return Theater.objects.create(**validated_data)
 
+    def update(self, instance, validated_data):
+        instance.name = validated_data.get("name", instance.name)
+        instance.address = validated_data.get("address", instance.address)
+        instance.short_address = validated_data.get("short_address", instance.short_address)
+        instance.location = validated_data.get("location", instance.location)
+        instance.zip_code = validated_data.get("zip_code", instance.zip_code)
+        instance.technologies = validated_data.get("technologies", instance.technologies)
+        instance.cuisines = validated_data.get("cuisines", instance.cuisines)
+        instance.shows = validated_data.get("shows", instance.shows)
+        instance.no_of_rows = validated_data.get("no_of_rows", instance.no_of_rows)
+        instance.no_of_cols = validated_data.get("no_of_cols", instance.no_of_cols)
+        instance.save()
+        return instance
+
 
 class TheaterOutputSerializer(TheaterSerializer):
-    id = serializers.IntegerField()
+    pass
 
 
 class TheaterUpdateSerializer(TheaterSerializer):
-    def update(self, instance, validated_data):
-        instance.name = validated_data["name"]
-        instance.address = validated_data["address"]
-        instance.short_address = validated_data["short_address"]
-        instance.location = validated_data["location"]
-        instance.zip_code = validated_data["zip_code"]
-        instance.technologies = validated_data["technologies"]
-        instance.cuisines = validated_data["cuisines"]
-        instance.shows = validated_data["shows"]
-        instance.no_of_rows = validated_data["no_of_rows"]
-        instance.no_of_cols = validated_data["no_of_cols"]
-        instance.save()
-        return instance
+    pass
