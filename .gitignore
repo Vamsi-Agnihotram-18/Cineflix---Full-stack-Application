@@ -1,0 +1,7 @@
+django-env
+db.sqlite3
+.env
+.DS_Store
+__pycache__
+pgdata
+readme.md
