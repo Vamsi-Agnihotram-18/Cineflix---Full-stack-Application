@@ -4,16 +4,27 @@ teamproject-sublimesprint created by GitHub Classroom
 # Sublimesprint
 
 ## Team members:
+Vamsi Agnihotram - 016920709  <br>
 Sri Ranga Pabbisetty - 017103164,  <br>
 Komal Kumar Vasireddy - 017422353,   <br>
 Surya Vamsi Krishna Pulapa - 017428710,   <br>
-Vamsi Krishna Agnihotram - 016920709  <br>
 
 ## Contributions:
 
+#### Vamsi Agnihotram:-
+System Architecture  <br>
+UI for login/signup pages  <br>
+UI for movies page  <br>
+Login/signup apis
+Theater seats and booking UI  <br>
+Analytics UI  <br>
+Deployed Local code in an instance  <br>
+Drafting Component Diagram
+Wireframes <br>
+
+
 #### Sri Ranga Pabbisetty:-
-Wireframes, Dockersetup  <br>
-Login/signup apis  <br>
+Dockersetup  <br>
 Movie and Theater apps  <br>
 Backend for checkout and guest checkout  <br>
 Theater employee apis  <br>
@@ -34,14 +45,6 @@ Show and Booking Apps  <br>
 Members Page api  <br>
 Thater employees apis  <br>
 Autoscaling ec2 instances  <br>
-
-#### Vamsi Krishna Agnihotram:-
-System Architecture, Wireframes  <br>
-UI for login/signup pages  <br>
-UI for movies page  <br>
-Thater seats and booking UI  <br>
-Analytics UI  <br>
-Deployed Local code in an instance  <br>
 
 ## Github Repo:
 https://github.com/gopinathsjsu/teamproject-sublimesprint
