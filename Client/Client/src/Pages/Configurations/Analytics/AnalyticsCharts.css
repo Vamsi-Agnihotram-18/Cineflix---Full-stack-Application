@@ -1,0 +1,36 @@
+/* AnalyticsCharts.css */
+
+/* Style for the outer container */
+.analytics-container {
+    display: flex;
+    background: #5c6368;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin: 20px;
+  }
+  
+  /* Style for each chart container */
+  .chart-container {
+    width: 300px;
+    height: 300px;
+    margin: 10px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+    background-color: #fff;
+  }
+  
+  /* Style for chart titles */
+  .chart-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  /* Style for the pie charts */
+  .chart {
+    width: 100%;
+    height: auto;
+  }
+  
