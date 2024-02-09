@@ -11,21 +11,26 @@ Surya Vamsi Krishna Pulapa - 017428710,   <br>
 
 ## Contributions:
 
-#### Sri Ranga Pabbisetty:-
-Wireframes, Dockersetup  <br>
-Login/signup apis  <br>
-Movie and Theater apps  <br>
-Backend for checkout and guest checkout  <br>
-Theater employee apis  <br>
-Configuring Load Balancers with multiple instances  <br>
-
-#### Komal Kumar Vasireddy:-
+#### Vamsi Krishna Agnihotram:-
 System Architecture, Wireframes  <br>
 UI for the landing Page  <br>
 UI for Theaters  <br>
 UI for checkout and guest checkout pages  <br>
 UI for theater seats and Theater admin configurations  <br>
-Setting up the laod balancers  <br>
+Theater employee apis  <br>
+System Architecture, Wireframes  <br>
+UI for login/signup pages  <br>
+UI for movies page  <br>
+Thater seats and booking UI  <br>
+Analytics UI  <br>
+Deployed Local code in an instance  <br>
+
+#### Sri Ranga Pabbisetty:-
+Wireframes, Dockersetup  <br>
+Login/signup apis  <br>
+Movie and Theater apps  <br>
+Backend for checkout and guest checkout  <br>
+Configuring Load Balancers with multiple instances  <br>
 
 #### Surya Vamsi Krishna Pulapa:-
 Wireframes, Dockersetup  <br>
@@ -35,12 +40,9 @@ Members Page api  <br>
 Thater employees apis  <br>
 Autoscaling ec2 instances  <br>
 
-#### Vamsi Krishna Agnihotram:-
-System Architecture, Wireframes  <br>
-UI for login/signup pages  <br>
-UI for movies page  <br>
-Thater seats and booking UI  <br>
-Analytics UI  <br>
+#### Komal Kumar Vasireddy:-
+Setting up the laod balancers  <br>
+Analytics UI 2 <br>
 Deployed Local code in an instance  <br>
 
 ## Github Repo:
