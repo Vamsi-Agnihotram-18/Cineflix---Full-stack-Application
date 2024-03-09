@@ -52,7 +52,7 @@ Deployed Local code in an instance  <br>
 - DevOps: Docker, AWS ec2
 - Others: Github, Git for version control
 
-## Development Process
+#### Development Process
 - Agile & Scrum
 
 ## Project Journal:
