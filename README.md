@@ -45,8 +45,15 @@ Setting up the laod balancers  <br>
 Analytics UI 2 <br>
 Deployed Local code in an instance  <br>
 
-## Github Repo:
-https://github.com/gopinathsjsu/teamproject-sublimesprint
+### Technologies Used
+- Frontend:  React.js, HTML, CSS, TypeScript
+- Backend: Node.js, Express
+- Database: MongoDB
+- DevOps: Docker, AWS ec2
+- Others: Github, Git for version control
+
+## Development Process
+- Agile & Scrum
 
 ## Project Journal:
 https://docs.google.com/spreadsheets/d/1glVOGUOCcq-dsvIYCFE6-mw0G_hQvMPm/edit#gid=2058488941
